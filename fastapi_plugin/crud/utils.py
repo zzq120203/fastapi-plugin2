@@ -10,7 +10,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy_database import AsyncDatabase, Database
 
-from fastapi_plugin.sqlmodel import SQLModel
+from .sqlmodel import SQLModel
 
 SqlalchemyDatabase = Union[Engine, AsyncEngine, Database, AsyncDatabase]
 

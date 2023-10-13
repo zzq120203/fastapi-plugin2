@@ -14,10 +14,11 @@ from sqlalchemy import util
 from sqlalchemy.orm import Mapper as _Mapper
 from sqlalchemy.orm import Session as _Session
 from sqlalchemy.sql.selectable import ForUpdateArg as _ForUpdateArg
-from fastapi_plugin.sqlmodel.sql.expression import Select, SelectOfScalar
 
 from ..engine.result import Result, ScalarResult
 from ..sql.base import Executable
+from ..sql.expression import Select, SelectOfScalar
+
 
 _TSelectParam = TypeVar("_TSelectParam")
 

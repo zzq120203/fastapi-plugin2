@@ -140,6 +140,7 @@ class RelationshipInfo(Representation):
 def Field(
     default: Any = PydanticUndefined,
     *,
+    default_factory: Optional[NoArgAnyCallable] = None,
     alias: Optional[str] = None,
     title: Optional[str] = None,
     description: Optional[str] = None,
@@ -178,8 +179,6 @@ def Field(
     if isinstance(default, Callable):
         default_factory = default
         default = PydanticUndefined
-    else:
-        default_factory = None
     if default is PydanticUndefined:
         if isinstance(sa_column, types.FunctionType):  # lambda
             sa_column_ = sa_column()

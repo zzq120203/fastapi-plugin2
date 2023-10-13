@@ -5,15 +5,13 @@
 # @Time     : 2023/10/12 9:48
 from typing import List
 
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Path
 from fastapi.requests import Request
 from pydantic import BaseModel
 
-from fastapi_plugin.sqlmodel import SQLModel
-
 try:
-    from fastapi_plugin.crud._sqlalchemy import SQLAlchemyCrud as _SQLAlchemyCrud
-except:
+    from ._sqlalchemy import SQLAlchemyCrud as _SQLAlchemyCrud
+except ImportError:
     _SQLAlchemyCrud = object
 from fastapi_plugin.responses import GenericData, DataResponse
 
@@ -72,22 +70,22 @@ class CrudRouter:
         async def __get_objects(
                 request: Request,
         ):
-            objs, total = await cls.crud.read_items(request=request)
+            objs = await cls.crud.read_items(request=request)
             return DataResponse(data={
-                "items": [cls.crud.ReadModel(**obj.model_dump()) for obj in objs],
-                "total": total
+                "items": objs,
+                "total": len(objs)
             })
 
         @router.get(
-            "/{id}",
+            "/{primary_key}",
             response_model=GenericData[cls.crud.ReadModel],
-            name=f'get {cls.name} by id'
+            name=f'get {cls.name} by primary_key({cls.crud.pk_name})'
         )
         async def __get_object(
                 request: Request,
-                id: str
+                primary_key: cls.crud.pk.annotation = Path(..., alias=cls.crud.pk_name)
         ):
-            obj = await cls.crud.read_item_by_id(item_id=id, request=request)
-            return DataResponse(data=cls.crud.ReadModel(**obj.model_dump()))
+            obj = await cls.crud.read_item_by_primary_key(primary_key=primary_key, request=request)
+            return DataResponse(data=obj)
 
         return router

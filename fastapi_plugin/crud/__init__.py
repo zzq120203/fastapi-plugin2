@@ -4,3 +4,4 @@
 # @FILE     : __init__.py.py
 # @Time     : 2023/10/11 15:47
 from ._sqlalchemy import SqlalchemyDatabase, SQLAlchemyCrud
+from .sqlmodel import SQLModel, Field
