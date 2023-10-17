@@ -26,7 +26,6 @@ class CrudRouter:
             crud: _SQLAlchemyCrud,
     ):
         self.crud = crud
-        self.db_session_middleware = crud.db.asgi_middleware
 
         self.Selector: Type[Selector] = sqlmodel_to_selector(crud.Model)
 

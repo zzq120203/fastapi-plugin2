@@ -5,7 +5,6 @@
 # @Time     : 2023/10/11 16:11
 from typing import Union, Type, Literal
 
-from fastapi import Query
 from pydantic import BaseModel, create_model, ConfigDict
 from pydantic_core import PydanticUndefined
 from sqlalchemy.engine import Engine

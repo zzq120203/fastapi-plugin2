@@ -10,7 +10,7 @@
 
 ## 安装
 ```shell
-pip3 install fastapi_plugin-0.2.1-py3-none-any.whl
+pip3 install fastapi_plugin-<version>-py3-none-any.whl
 ```
 
 ## fastapi
@@ -51,12 +51,14 @@ engine: AsyncEngine = create_async_engine(database_url)
 
 ## 注册
 ```python
-from fastapi_plugin.crud import SQLAlchemyCrud
+from fastapi_plugin.crud import SQLAlchemyCrud, get_engine_db
 
-cate_router = SQLAlchemyCrud(Category, engine).router()
+database = get_engine_db(engine)
+
+cate_router = SQLAlchemyCrud(Category, database).router()
 
 # 挂载中间件
-app.add_middleware(cate_router.db_session_middleware)
+app.add_middleware(database.asgi_middleware)
 # 挂载路由
 app.include_router(cate_router.create_object_router())
 app.include_router(cate_router.read_object_router())
@@ -87,7 +89,7 @@ from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from fastapi_plugin import offline
-from fastapi_plugin.crud import SQLAlchemyCrud, Field, SQLModel
+from fastapi_plugin.crud import SQLAlchemyCrud, Field, SQLModel, get_engine_db
 
 app = FastAPI()
 
@@ -103,10 +105,12 @@ class Category(SQLModel, table=True):
 database_url = 'sqlite+aiosqlite:///test.db'
 engine: AsyncEngine = create_async_engine(database_url)
 
-cate_router = SQLAlchemyCrud(Category, engine).router()
+database = get_engine_db(engine)
+
+cate_router = SQLAlchemyCrud(Category, database).router()
 
 # 挂载中间件
-app.add_middleware(cate_router.db_session_middleware)
+app.add_middleware(database.asgi_middleware)
 # 挂载路由
 app.include_router(cate_router.create_object_router())
 app.include_router(cate_router.read_object_router())
@@ -120,3 +124,11 @@ async def startup():
         await conn.run_sync(SQLModel.metadata.create_all)
 
 ```
+
+## 迭代计划
+- [x] 增删改查
+- [x] 异步接口支持
+- [x] 自动关联openapi文档
+- [ ] 数据库操作前后钩子
+- [ ] 用户权限
+- [ ] 后端管理界面
