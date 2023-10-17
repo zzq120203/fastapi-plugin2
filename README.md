@@ -39,14 +39,16 @@ class Category(SQLModel, table=True):
 ```python
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
-database_url = 'postgresql+psycopg://postgres:123456@192.168.101.66:35432/postgres'
-# database_url = 'sqlite+aiosqlite:///test.db'
+database_url = 'sqlite+aiosqlite:///test.db'
 engine: AsyncEngine = create_async_engine(database_url)
 ```
 
 ### Database
 ```python
+from sqlalchemy import create_engine, Engine
 
+database_url = 'sqlite+aiosqlite:///test.db'
+engine: Engine = create_engine(database_url)
 ```
 
 ## 注册
