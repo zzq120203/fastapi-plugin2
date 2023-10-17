@@ -1,3 +1,6 @@
+__version__ = "0.0.8-fork"
+__url__ = "https://github.com/tiangolo/sqlmodel"
+
 from sqlalchemy.engine import create_mock_engine as create_mock_engine
 from sqlalchemy.engine import engine_from_config as engine_from_config
 from sqlalchemy.inspection import inspect as inspect
