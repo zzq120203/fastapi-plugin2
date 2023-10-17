@@ -110,7 +110,7 @@ class CrudRouter:
                 primary_key: cls.crud.pk_field.annotation = Path(..., alias=cls.crud.pk_name),
                 obj_update: cls.crud.UpdateModel = Body(...),
         ):
-            obj = await cls.crud.update_items(primary_keys=[primary_key], item=obj_update, request=request)
+            obj = await cls.crud.update_items(primary_key=[primary_key], item=obj_update, request=request)
             return DataResponse(data=obj)
 
         @router.patch(
