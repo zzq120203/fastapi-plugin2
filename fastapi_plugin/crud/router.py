@@ -16,7 +16,7 @@ try:
     from ._sqlalchemy import SQLAlchemyCrud as _SQLAlchemyCrud
 except ImportError:
     _SQLAlchemyCrud = object
-from fastapi_plugin.responses import GenericData, DataResponse
+from ..common.responses import GenericData, DataResponse
 
 
 class CrudRouter:

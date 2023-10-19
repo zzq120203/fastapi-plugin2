@@ -127,10 +127,28 @@ async def startup():
 
 ```
 
+## 权限
+```python
+from fastapi import Depends, Request
+from fastapi_plugin.user import Auth, AuthRouter
+
+auth = Auth(db=database)
+
+auth_router = AuthRouter(auth)
+
+app.include_router(auth_router.router)
+
+# admin 用户可以访问
+@app.get("/auth/get_user", dependencies=[Depends(auth.current_user('admin'))])
+def get_user(request: Request):
+    return request.user
+```
+
 ## 迭代计划
 - [x] 增删改查
 - [x] 异步接口支持
 - [x] 自动关联openapi文档
 - [ ] 数据库操作前后钩子
-- [ ] 用户权限
+- [x] 用户权限
 - [ ] 后端管理界面
+- [ ] 资源隔离
